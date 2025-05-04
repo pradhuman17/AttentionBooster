@@ -138,20 +138,15 @@ export function ServiceCard({
       </motion.p>
       
       {image && (
-        <motion.div 
+        <div 
           ref={imageRef}
           className="relative w-full h-48 mb-6 overflow-hidden rounded-lg service-image-container"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? 
-            { opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.5 } } : 
-            { opacity: 0, y: 20 }
-          }
         >
           <img 
             src={image} 
             alt={title} 
             className={cn(
-              "w-full h-full object-cover rounded-lg transition-transform duration-700 ease-in-out",
+              "w-full h-full object-cover rounded-lg transition-transform duration-700 ease-in-out opacity-100 visible image-loaded",
               isHovered ? "scale-105" : "scale-100"
             )}
           />
@@ -169,7 +164,7 @@ export function ServiceCard({
               {title}
             </span>
           </div>
-        </motion.div>
+        </div>
       )}
       
       <motion.ul 

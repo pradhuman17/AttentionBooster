@@ -161,6 +161,15 @@
   .service-image-container {
     position: relative;
     overflow: hidden;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .service-card img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   .service-image-container::before {
@@ -193,6 +202,9 @@
   
   .image-loaded {
     animation: imageReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(1) !important;
+    filter: blur(0) !important;
+    opacity: 1 !important;
   }
   
   @keyframes imageReveal {
@@ -206,6 +218,22 @@
       filter: blur(0);
       opacity: 1;
     }
+  }
+  
+  /* Force service section visibility */
+  #services {
+    position: relative !important;
+    z-index: 10 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Ensure service card images are shown */
+  .service-card .service-image-container img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   /* Button hover effects */

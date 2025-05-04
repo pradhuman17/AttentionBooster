@@ -142,7 +142,8 @@ export function Contact() {
             </div>
           </AnimateSection>
           
-          <AnimateSection id="book" className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg reveal">
+          <div id="book">
+            <AnimateSection className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg reveal">
             <h3 className="font-poppins font-bold text-2xl mb-6">Book a Free Consultation</h3>
             
             <Form {...form}>
@@ -259,11 +260,12 @@ export function Contact() {
             
             <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
               Or schedule directly via 
-              <a href="https://calendly.com" target="_blank" rel="noreferrer" className="text-[hsl(var(--royal-blue))] dark:text-blue-300 hover:underline ml-1">
+              <a href="https://calendly.com/pradhumanyadav017/30min?month=2025-05" target="_blank" rel="noreferrer" className="text-[hsl(var(--royal-blue))] dark:text-blue-300 hover:underline ml-1">
                 Calendly
               </a>
             </p>
-          </AnimateSection>
+            </AnimateSection>
+          </div>
         </div>
       </div>
     </section>

@@ -62,7 +62,7 @@ export function CaseStudies() {
                 </div>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">{caseStudy.description}</p>
                 <a 
-                  href="#" 
+                  href="/case-studies" 
                   className="inline-flex items-center justify-center px-6 py-2.5 border border-[hsl(var(--royal-blue))] text-[hsl(var(--royal-blue))] dark:text-white dark:border-white font-medium rounded-lg hover:bg-[hsl(var(--royal-blue))]/5 transition-colors"
                 >
                   View Full Case Study

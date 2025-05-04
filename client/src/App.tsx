@@ -6,6 +6,7 @@ import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
 import CaseStudiesDetail from "@/pages/CaseStudiesDetail";
 import { FloatingButton } from "@/components/layout/FloatingButton";
+import { CustomCursor } from "@/components/ui/custom-cursor";
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Router />
       <Toaster />
       <FloatingButton />
+      <CustomCursor />
     </QueryClientProvider>
   );
 }

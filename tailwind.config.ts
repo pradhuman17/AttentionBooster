@@ -5,7 +5,7 @@ export default {
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     fontFamily: {
-      sans: ['Inter', 'system-ui', 'sans-serif'],
+      sans: ['Poppins', 'system-ui', 'sans-serif'],
       inter: ['Inter', 'system-ui', 'sans-serif'],
       poppins: ['Poppins', 'system-ui', 'sans-serif'],
     },

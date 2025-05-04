@@ -12,7 +12,8 @@ export function Services() {
         "Cross-platform optimization",
         "A/B testing and iteration"
       ],
-      gradientClass: "blue-gradient"
+      gradientClass: "blue-gradient",
+      image: "/images/ads.jpg"
     },
     {
       icon: "bx-bot",
@@ -23,7 +24,8 @@ export function Services() {
         "Automated lead nurturing",
         "AI-powered chatbots"
       ],
-      gradientClass: "purple-gradient"
+      gradientClass: "purple-gradient",
+      image: "/images/Hero_AI_Workflow_Automation.jpg"
     },
     {
       icon: "bx-code-block",
@@ -34,7 +36,8 @@ export function Services() {
         "Responsive across all devices",
         "SEO-optimized structure"
       ],
-      gradientClass: "bg-gradient-to-r from-[hsl(var(--royal-blue))] to-[hsl(var(--electric-purple))]"
+      gradientClass: "bg-gradient-to-r from-[hsl(var(--royal-blue))] to-[hsl(var(--electric-purple))]",
+      image: "/images/code.jpg"
     }
   ];
 
@@ -55,6 +58,7 @@ export function Services() {
                 description={service.description}
                 features={service.features}
                 gradientClass={service.gradientClass}
+                image={service.image}
               />
             </AnimateSection>
           ))}

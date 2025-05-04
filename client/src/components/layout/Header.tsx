@@ -65,7 +65,7 @@ export function Header() {
                 <a 
                   key={link.name}
                   href={link.href} 
-                  className="text-sm font-medium hover:text-[hsl(var(--royal-blue))] transition-colors"
+                  className="text-sm font-medium hover:text-[hsl(var(--royal-blue))] transition-colors hover-underline"
                 >
                   {link.name}
                 </a>
@@ -101,15 +101,18 @@ export function Header() {
             transition={{ duration: 0.3 }}
           >
             <div className="px-4 py-5 space-y-4">
-              {navLinks.map((link) => (
-                <a 
+              {navLinks.map((link, index) => (
+                <motion.a 
                   key={link.name}
                   href={link.href} 
-                  className="block text-sm font-medium hover:text-[hsl(var(--royal-blue))]"
+                  className="block text-sm font-medium hover:text-[hsl(var(--royal-blue))] hover-underline"
                   onClick={closeMenu}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05, duration: 0.3 }}
                 >
                   {link.name}
-                </a>
+                </motion.a>
               ))}
               <a 
                 href="https://calendly.com/pradhumanyadav017/30min?month=2025-05" 

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 interface ServiceCardProps {
   icon: string;
@@ -19,9 +20,28 @@ export function ServiceCard({
   image
 }: ServiceCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Animate features with staggered delay
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    show: { opacity: 1, x: 0 }
+  };
 
   useEffect(() => {
+    // Handle image loading animation
     if (image && imageRef.current) {
       const observer = new IntersectionObserver(
         (entries) => {
@@ -42,24 +62,90 @@ export function ServiceCard({
         }
       };
     }
+
+    // Handle card visibility for animations
+    if (cardRef.current) {
+      const cardObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setIsVisible(true);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      
+      cardObserver.observe(cardRef.current);
+      
+      return () => {
+        if (cardRef.current) {
+          cardObserver.unobserve(cardRef.current);
+        }
+      };
+    }
   }, [image]);
 
   return (
-    <div 
+    <motion.div 
+      ref={cardRef}
       className="service-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg h-full flex flex-col overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      initial={{ y: 30, opacity: 0 }}
+      animate={isVisible ? 
+        { y: 0, opacity: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } } : 
+        { y: 30, opacity: 0 }
+      }
+      whileHover={{ 
+        y: -5, 
+        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+        transition: { duration: 0.2 } 
+      }}
     >
-      <div className={cn("w-16 h-16 rounded-lg flex items-center justify-center mb-6", gradientClass)}>
+      <motion.div 
+        className={cn("w-16 h-16 rounded-lg flex items-center justify-center mb-6", gradientClass)}
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={isVisible ? 
+          { scale: 1, opacity: 1, transition: { delay: 0.1, duration: 0.4 } } : 
+          { scale: 0.8, opacity: 0 }
+        }
+        whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+      >
         <i className={cn('bx', icon, 'text-3xl text-white')}></i>
-      </div>
-      <h3 className="font-poppins font-bold text-xl mb-3">{title}</h3>
-      <p className="text-gray-600 dark:text-gray-300 mb-6">{description}</p>
+      </motion.div>
+      
+      <motion.h3 
+        className="font-poppins font-bold text-xl mb-3"
+        initial={{ y: 10, opacity: 0 }}
+        animate={isVisible ? 
+          { y: 0, opacity: 1, transition: { delay: 0.2, duration: 0.4 } } : 
+          { y: 10, opacity: 0 }
+        }
+      >
+        {title}
+      </motion.h3>
+      
+      <motion.p 
+        className="text-gray-600 dark:text-gray-300 mb-6"
+        initial={{ y: 10, opacity: 0 }}
+        animate={isVisible ? 
+          { y: 0, opacity: 1, transition: { delay: 0.3, duration: 0.4 } } : 
+          { y: 10, opacity: 0 }
+        }
+      >
+        {description}
+      </motion.p>
       
       {image && (
-        <div 
+        <motion.div 
           ref={imageRef}
           className="relative w-full h-48 mb-6 overflow-hidden rounded-lg service-image-container"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? 
+            { opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.5 } } : 
+            { opacity: 0, y: 20 }
+          }
         >
           <img 
             src={image} 
@@ -73,17 +159,42 @@ export function ServiceCard({
             "absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 transition-opacity duration-500",
             isHovered ? "opacity-100" : "opacity-0"
           )}></div>
-        </div>
+          
+          {/* Overlay text on hover */}
+          <div className={cn(
+            "absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500",
+            isHovered ? "opacity-100" : "opacity-0"
+          )}>
+            <span className="text-white font-poppins font-semibold text-lg px-4 py-2 rounded-full bg-black/30 backdrop-blur-sm">
+              {title}
+            </span>
+          </div>
+        </motion.div>
       )}
       
-      <ul className="space-y-2 flex-grow">
+      <motion.ul 
+        className="space-y-2 flex-grow"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isVisible ? "show" : "hidden"}
+      >
         {features.map((feature, index) => (
-          <li key={index} className="flex items-start">
-            <i className="bx bx-check text-green-500 text-xl mr-2"></i>
+          <motion.li 
+            key={index} 
+            className="flex items-start"
+            variants={itemVariants}
+            transition={{ duration: 0.3, delay: 0.4 + (index * 0.1) }}
+          >
+            <motion.i 
+              className="bx bx-check text-green-500 text-xl mr-2"
+              initial={{ scale: 0 }}
+              animate={isVisible ? { scale: 1 } : { scale: 0 }}
+              transition={{ duration: 0.3, delay: 0.4 + (index * 0.1) }}
+            ></motion.i>
             <span className="text-sm text-gray-700 dark:text-gray-300">{feature}</span>
-          </li>
+          </motion.li>
         ))}
-      </ul>
-    </div>
+      </motion.ul>
+    </motion.div>
   );
 }

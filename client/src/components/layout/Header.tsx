@@ -74,7 +74,7 @@ export function Header() {
             
             <div className="flex items-center gap-4">
               <ModeToggle />
-              <a href="https://calendly.com/pradhumanyadav017/30min?month=2025-05" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center px-5 py-2.5 bg-[hsl(var(--royal-blue))] text-white font-medium text-sm rounded-full hover:bg-[hsl(var(--royal-blue-light))] transition-colors shadow-md hover:shadow-lg">
+              <a href="https://calendly.com/pradhumanyadav017/30min?month=2025-05" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center px-5 py-2.5 bg-[hsl(var(--royal-blue))] text-white font-medium text-sm rounded-full hover:bg-[hsl(var(--royal-blue-light))] transition-colors shadow-md hover:shadow-lg btn-hover-effect pulse">
                 Book Appointment
               </a>
             </div>
@@ -114,15 +114,19 @@ export function Header() {
                   {link.name}
                 </motion.a>
               ))}
-              <a 
+              <motion.a 
                 href="https://calendly.com/pradhumanyadav017/30min?month=2025-05" 
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center justify-center w-full px-5 py-2.5 bg-[hsl(var(--royal-blue))] text-white font-medium text-sm rounded-full hover:bg-[hsl(var(--royal-blue-light))] transition-colors"
+                className="inline-flex items-center justify-center w-full px-5 py-2.5 bg-[hsl(var(--royal-blue))] text-white font-medium text-sm rounded-full hover:bg-[hsl(var(--royal-blue-light))] transition-colors btn-hover-effect pulse"
                 onClick={closeMenu}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3, duration: 0.3 }}
+                whileHover={{ scale: 1.05 }}
               >
                 Book Appointment
-              </a>
+              </motion.a>
               <div className="flex justify-center pt-2">
                 <ModeToggle />
               </div>

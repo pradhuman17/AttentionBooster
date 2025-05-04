@@ -109,7 +109,7 @@ export function Hero() {
             >
               <div className="service-image-container rounded-lg overflow-hidden">
                 <motion.img 
-                  src="/images/workflow-animation.png" 
+                  src="/images/ai-workflow-automationA--1-.png" 
                   alt="AI Workflow Automation" 
                   className={`w-full h-full object-contain ${isLoaded ? 'image-loaded' : ''}`}
                   initial={{ filter: "blur(10px)", opacity: 0 }}

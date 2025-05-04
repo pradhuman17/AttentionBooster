@@ -107,16 +107,12 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="service-image-container rounded-lg overflow-hidden">
+              <div>
                 <img 
-                  src="/images/ai-workflow-automationA--1-.png" 
+                  src="/ai-workflow-automationA--1-.png" 
                   alt="AI Workflow Automation" 
-                  className="w-full h-full object-contain opacity-100 visible"
-                  style={{
-                    display: 'block',
-                    visibility: 'visible',
-                    opacity: 1
-                  }}
+                  width="500"
+                  height="300"
                 />
                 
                 {/* Animated elements overlaying the workflow image */}

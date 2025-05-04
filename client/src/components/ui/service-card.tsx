@@ -22,7 +22,7 @@ export function ServiceCard({
       </div>
       <h3 className="font-poppins font-bold text-xl mb-3">{title}</h3>
       <p className="text-gray-600 dark:text-gray-300 mb-6">{description}</p>
-      <ul className="space-y-2 mb-6 flex-grow">
+      <ul className="space-y-2 flex-grow">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start">
             <i className="bx bx-check text-green-500 text-xl mr-2"></i>
@@ -30,10 +30,6 @@ export function ServiceCard({
           </li>
         ))}
       </ul>
-      <a href="#" className="inline-flex items-center text-[hsl(var(--royal-blue))] dark:text-blue-300 font-medium hover:underline">
-        Learn more
-        <i className="bx bx-right-arrow-alt ml-1"></i>
-      </a>
     </div>
   );
 }

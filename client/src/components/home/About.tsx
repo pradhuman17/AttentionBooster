@@ -33,11 +33,6 @@ export function About() {
                 </AnimateSection>
               ))}
             </div>
-            
-            <a href="#contact" className="inline-flex items-center text-[hsl(var(--royal-blue))] dark:text-blue-300 font-medium hover:underline">
-              Get to know our team
-              <i className="bx bx-right-arrow-alt ml-1"></i>
-            </a>
           </AnimateSection>
           
           <AnimateSection className="relative reveal">

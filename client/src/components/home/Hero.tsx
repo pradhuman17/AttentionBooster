@@ -108,14 +108,15 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <div className="service-image-container rounded-lg overflow-hidden">
-                <motion.img 
+                <img 
                   src="/images/ai-workflow-automationA--1-.png" 
                   alt="AI Workflow Automation" 
-                  className={`w-full h-full object-contain ${isLoaded ? 'image-loaded' : ''}`}
-                  initial={{ filter: "blur(10px)", opacity: 0 }}
-                  animate={{ filter: "blur(0px)", opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
-                  whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
+                  className="w-full h-full object-contain opacity-100 visible"
+                  style={{
+                    display: 'block',
+                    visibility: 'visible',
+                    opacity: 1
+                  }}
                 />
                 
                 {/* Animated elements overlaying the workflow image */}

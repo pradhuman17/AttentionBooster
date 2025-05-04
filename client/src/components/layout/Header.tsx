@@ -35,7 +35,6 @@ export function Header() {
   const navLinks = [
     { name: "Services", href: "#services" },
     { name: "Case Studies", href: "#case-studies" },
-    { name: "Detailed Cases", href: "/case-studies" },
     { name: "Testimonials", href: "#testimonials" },
     { name: "About", href: "#about" },
     { name: "Contact", href: "#contact" },
@@ -52,7 +51,8 @@ export function Header() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center gap-2">
+            <img src="/images/final_logo-removebg.png" alt="Invincible Growth Logo" className="h-10 w-auto" />
             <span className="font-poppins font-bold text-2xl">
               <span className="text-[hsl(var(--royal-blue))]">Invincible</span>
               <span className="text-[hsl(var(--electric-purple))]">Growth</span>
@@ -74,7 +74,7 @@ export function Header() {
             
             <div className="flex items-center gap-4">
               <ModeToggle />
-              <a href="#book" className="inline-flex items-center justify-center px-5 py-2.5 bg-[hsl(var(--royal-blue))] text-white font-medium text-sm rounded-full hover:bg-[hsl(var(--royal-blue-light))] transition-colors shadow-md hover:shadow-lg">
+              <a href="https://calendly.com/pradhumanyadav017/30min?month=2025-05" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center px-5 py-2.5 bg-[hsl(var(--royal-blue))] text-white font-medium text-sm rounded-full hover:bg-[hsl(var(--royal-blue-light))] transition-colors shadow-md hover:shadow-lg">
                 Book Appointment
               </a>
             </div>
@@ -112,7 +112,9 @@ export function Header() {
                 </a>
               ))}
               <a 
-                href="#book" 
+                href="https://calendly.com/pradhumanyadav017/30min?month=2025-05" 
+                target="_blank" 
+                rel="noreferrer"
                 className="inline-flex items-center justify-center w-full px-5 py-2.5 bg-[hsl(var(--royal-blue))] text-white font-medium text-sm rounded-full hover:bg-[hsl(var(--royal-blue-light))] transition-colors"
                 onClick={closeMenu}
               >

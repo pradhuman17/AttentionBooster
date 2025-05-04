@@ -16,13 +16,17 @@ export function formatPhoneNumber(phoneNumberString: string) {
 
 // Function to reveal elements on scroll
 export function setupScrollReveal() {
-  const reveal = () => {
+  // Clean up any existing scroll event listeners
+  window.removeEventListener('scroll', reveal);
+  
+  function reveal() {
     const reveals = document.querySelectorAll('.reveal');
     
     for (let i = 0; i < reveals.length; i++) {
       const windowHeight = window.innerHeight;
       const elementTop = reveals[i].getBoundingClientRect().top;
-      const elementVisible = 150;
+      // Reduced threshold - elements will start appearing sooner
+      const elementVisible = 100;
       
       if (elementTop < windowHeight - elementVisible) {
         reveals[i].classList.add('active');
@@ -30,8 +34,33 @@ export function setupScrollReveal() {
     }
   };
   
+  // Add event listener for scroll
   window.addEventListener('scroll', reveal);
   
-  // Initialize on page load
+  // Force all sections above the fold to be visible
+  function revealInitialSections() {
+    const reveals = document.querySelectorAll('.reveal');
+    
+    reveals.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      // If element is in the initial viewport or close to it
+      if (rect.top < window.innerHeight + 50) {
+        element.classList.add('active');
+      }
+    });
+  }
+  
+  // Initialize on page load - run multiple times to ensure all elements are checked
   setTimeout(reveal, 100);
+  setTimeout(revealInitialSections, 300);
+  setTimeout(reveal, 600); // Run again after any potential layout shifts
+  
+  // Force reveal service section specifically (since you mentioned it wasn't visible)
+  setTimeout(() => {
+    const serviceSection = document.getElementById('services');
+    if (serviceSection) {
+      const serviceReveals = serviceSection.querySelectorAll('.reveal');
+      serviceReveals.forEach(el => el.classList.add('active'));
+    }
+  }, 800);
 }

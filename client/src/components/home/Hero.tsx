@@ -102,63 +102,91 @@ export function Hero() {
           
           <AnimateSection className="relative reveal">
             <motion.div 
-              className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden p-6 z-10"
+              className="relative bg-transparent overflow-hidden z-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
             >
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="absolute top-0 left-0 h-2 blue-gradient"
-              ></motion.div>
-              
               <div className="service-image-container rounded-lg overflow-hidden">
                 <motion.img 
-                  src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-                  alt="Marketing dashboard showing growth metrics" 
-                  className={`w-full rounded-lg ${isLoaded ? 'image-loaded' : ''}`}
+                  src="/images/workflow-animation.png" 
+                  alt="AI Workflow Automation" 
+                  className={`w-full h-full object-contain ${isLoaded ? 'image-loaded' : ''}`}
                   initial={{ filter: "blur(10px)", opacity: 0 }}
                   animate={{ filter: "blur(0px)", opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
+                  whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
                 />
-              </div>
-              
-              <motion.div 
-                className="flex items-center mt-4 gap-4"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-              >
-                <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                <div className="text-sm font-semibold text-green-600 dark:text-green-400">+124% Growth</div>
-              </motion.div>
-              
-              <div className="grid grid-cols-3 gap-3 mt-4">
-                {[
-                  { label: "Conversion", value: "8.4%" },
-                  { label: "Leads", value: "1,428" },
-                  { label: "ROI", value: "321%" }
-                ].map((stat, index) => (
-                  <motion.div 
-                    key={stat.label}
-                    className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg"
-                    custom={index}
-                    variants={statsVariants}
-                    initial="hidden"
-                    animate="visible"
-                    whileHover={{ 
-                      y: -5, 
-                      boxShadow: "0 10px 25px rgba(26, 26, 255, 0.1)",
-                      transition: { duration: 0.2 } 
-                    }}
-                  >
-                    <p className="text-xs text-gray-500 dark:text-gray-400">{stat.label}</p>
-                    <p className="font-bold text-lg">{stat.value}</p>
-                  </motion.div>
-                ))}
+                
+                {/* Animated elements overlaying the workflow image */}
+                <motion.div 
+                  className="absolute top-1/2 left-1/3 w-4 h-4 bg-blue-500 rounded-full"
+                  animate={{ 
+                    scale: [1, 1.3, 1],
+                    opacity: [0.7, 1, 0.7]
+                  }}
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                />
+                
+                <motion.div 
+                  className="absolute top-1/4 right-1/3 w-3 h-3 bg-green-400 rounded-full"
+                  animate={{ 
+                    scale: [1, 1.3, 1],
+                    opacity: [0.7, 1, 0.7]
+                  }}
+                  transition={{ 
+                    duration: 2.5,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    delay: 0.5
+                  }}
+                />
+                
+                <motion.div 
+                  className="absolute bottom-1/3 right-1/4 w-3 h-3 bg-purple-500 rounded-full"
+                  animate={{ 
+                    scale: [1, 1.3, 1],
+                    opacity: [0.7, 1, 0.7]
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    delay: 1
+                  }}
+                />
+                
+                {/* Animated connection lines */}
+                <motion.div 
+                  className="absolute top-1/3 left-1/2 h-[1px] bg-gradient-to-r from-blue-400 to-green-400"
+                  style={{ width: '25%' }}
+                  animate={{ 
+                    opacity: [0.3, 0.8, 0.3],
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                />
+                
+                <motion.div 
+                  className="absolute top-2/3 right-1/3 h-[1px] bg-gradient-to-r from-purple-400 to-pink-400"
+                  style={{ width: '20%' }}
+                  animate={{ 
+                    opacity: [0.3, 0.8, 0.3],
+                  }}
+                  transition={{ 
+                    duration: 2.5,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    delay: 0.5
+                  }}
+                />
               </div>
             </motion.div>
             

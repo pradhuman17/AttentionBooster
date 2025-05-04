@@ -116,11 +116,7 @@ export function CustomCursor() {
           transition: isHovering ? 'all 0.3s ease-out' : 'all 0.15s ease-out'
         }}
       >
-        {isOnLink && (
-          <span className="absolute inset-0 flex items-center justify-center text-white text-xs font-poppins opacity-80">
-            Click
-          </span>
-        )}
+
       </div>
       
       {/* Center dot */}

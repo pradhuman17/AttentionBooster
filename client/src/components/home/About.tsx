@@ -1,6 +1,14 @@
 import { AnimateSection } from "@/components/ui/motion";
+import { useState } from "react";
+import { MarketingQuiz } from "@/components/ui/marketing-quiz";
+import { Button } from "@/components/ui/button";
+import { Lightbulb } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function About() {
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+
   const stats = [
     { value: "500+", label: "Leads Generated Monthly" },
     { value: "25+", label: "Websites Designed" },
@@ -8,10 +16,16 @@ export function About() {
     { value: "15+", label: "Industries Served" }
   ];
 
+  const handleQuizComplete = () => {
+    setQuizCompleted(true);
+    // Store in localStorage so user doesn't see the quiz prompt again
+    localStorage.setItem('marketingQuizCompleted', 'true');
+  };
+
   return (
     <section id="about" className="py-16 md:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
           <AnimateSection className="reveal">
             <h2 className="font-poppins font-bold text-3xl md:text-4xl mb-6">About Invincible Growth</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
@@ -46,6 +60,36 @@ export function About() {
             <div className="absolute -z-10 bottom-4 -right-4 purple-gradient w-20 h-20 rounded-full blur-lg opacity-80"></div>
             <div className="absolute -z-10 top-8 -left-8 blue-gradient w-24 h-24 rounded-full blur-lg opacity-80"></div>
           </AnimateSection>
+        </div>
+        
+        {/* Marketing Quiz Section */}
+        <div className="mt-16">
+          {!showQuiz ? (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-[hsl(var(--royal-blue))]/5 dark:bg-[hsl(var(--royal-blue))]/10 rounded-xl p-8 border border-[hsl(var(--royal-blue))]/10 text-center"
+            >
+              <div className="mx-auto w-16 h-16 bg-[hsl(var(--royal-blue))]/10 rounded-full flex items-center justify-center mb-4">
+                <Lightbulb className="h-8 w-8 text-[hsl(var(--royal-blue))]" />
+              </div>
+              
+              <h3 className="font-poppins font-bold text-2xl md:text-3xl mb-3">Test Your Marketing Knowledge</h3>
+              <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-6">
+                Challenge yourself with our quick marketing quiz to discover your level of expertise and gain valuable insights for your business strategy.
+              </p>
+              
+              <Button 
+                onClick={() => setShowQuiz(true)}
+                className="bg-gradient-to-r from-[hsl(var(--royal-blue))] to-[hsl(var(--electric-purple))] text-white hover:brightness-110 px-8"
+              >
+                Take the Quiz
+              </Button>
+            </motion.div>
+          ) : (
+            <MarketingQuiz onComplete={handleQuizComplete} />
+          )}
         </div>
       </div>
     </section>

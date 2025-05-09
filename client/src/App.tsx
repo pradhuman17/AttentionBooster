@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import CaseStudiesDetail from "@/pages/CaseStudiesDetail";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { CaseStudyButton } from "@/components/ui/case-study-button";
+import { ProgressTracker } from "@/components/ui/progress-tracker";
 
 function Router() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Toaster />
       <CustomCursor />
       <CaseStudyButton />
+      <ProgressTracker />
     </QueryClientProvider>
   );
 }

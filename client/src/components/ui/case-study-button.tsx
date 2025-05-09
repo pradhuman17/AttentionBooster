@@ -17,6 +17,10 @@ export function CaseStudyButton({ className }: CaseStudyButtonProps) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    
+    // Set localStorage flag for rewards system
+    localStorage.setItem('caseStudyDownloaded', 'true');
+    
     setIsOpen(false);
   }, []);
 

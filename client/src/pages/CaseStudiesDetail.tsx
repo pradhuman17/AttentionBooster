@@ -54,6 +54,9 @@ export default function CaseStudiesDetail() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    
+    // Set localStorage flag for rewards system
+    localStorage.setItem('caseStudyDownloaded', 'true');
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -140,25 +143,39 @@ export default function CaseStudiesDetail() {
               </motion.div>
 
               <motion.div 
-                className="flex justify-center gap-4 mb-8"
+                className="flex flex-col items-center mb-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <Button 
-                  className="bg-[hsl(var(--royal-blue))] text-white hover:bg-[hsl(var(--royal-blue-light))] rounded-full"
-                  onClick={() => handleDownloadPDF("CASE STUDY 🪴.pdf")}
+                <div className="flex flex-wrap justify-center gap-4 mb-4">
+                  <Button 
+                    className="bg-[hsl(var(--royal-blue))] text-white hover:bg-[hsl(var(--royal-blue-light))] rounded-full"
+                    data-action="download-case-study"
+                    onClick={() => handleDownloadPDF("CASE STUDY 🪴.pdf")}
+                  >
+                    <i className="bx bxs-download mr-2"></i>
+                    Download Coaching Case Study
+                  </Button>
+                  <Button 
+                    className="bg-[hsl(var(--royal-blue))] text-white hover:bg-[hsl(var(--royal-blue-light))] rounded-full"
+                    data-action="download-case-study"
+                    onClick={() => handleDownloadPDF("_CASE STUDY🔥.pdf")}
+                  >
+                    <i className="bx bxs-download mr-2"></i>
+                    Download E-commerce Case Study
+                  </Button>
+                </div>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="flex items-center gap-2 text-sm text-[hsl(var(--electric-purple))] dark:text-[hsl(var(--electric-purple))]"
                 >
-                  <i className="bx bxs-download mr-2"></i>
-                  Download Coaching Case Study
-                </Button>
-                <Button 
-                  className="bg-[hsl(var(--royal-blue))] text-white hover:bg-[hsl(var(--royal-blue-light))] rounded-full"
-                  onClick={() => handleDownloadPDF("_CASE STUDY🔥.pdf")}
-                >
-                  <i className="bx bxs-download mr-2"></i>
-                  Download E-commerce Case Study
-                </Button>
+                  <i className="bx bxs-gift text-lg"></i>
+                  <span>Download to unlock exclusive rewards!</span>
+                </motion.div>
               </motion.div>
             </div>
           </div>

@@ -8,6 +8,7 @@ import CaseStudiesDetail from "@/pages/CaseStudiesDetail";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { CaseStudyButton } from "@/components/ui/case-study-button";
 import { ProgressTracker } from "@/components/ui/progress-tracker";
+import { RewardsSystem } from "@/components/ui/rewards-system";
 
 function Router() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <CustomCursor />
       <CaseStudyButton />
       <ProgressTracker />
+      <RewardsSystem />
     </QueryClientProvider>
   );
 }

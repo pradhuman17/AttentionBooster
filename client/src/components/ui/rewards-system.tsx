@@ -56,34 +56,71 @@ export function RewardsSystem() {
         console.error('Error parsing saved rewards:', e);
       }
     }
+  }, []);
+  
+  // Setup event listeners and monitor for rewards
+  useEffect(() => {
+    // Add specific event listeners for the "Your Journey" progress
+    const handleProgressComplete = (e: CustomEvent) => {
+      // This will be triggered by the ProgressTracker when all milestones are completed
+      const currentRewardsCopy = [...rewards];
+      const journeyReward = currentRewardsCopy.find(r => r.id === 'all_milestones');
+      
+      if (journeyReward && !journeyReward.claimed) {
+        journeyReward.claimed = true;
+        localStorage.setItem('siteRewards', JSON.stringify(currentRewardsCopy));
+        setRewards(currentRewardsCopy);
+        setCurrentReward(journeyReward);
+        setShowReward(true);
+      }
+    };
     
-    // Add event listener for significant actions
+    // Listen for the custom event
+    document.addEventListener('journeyCompleted', handleProgressComplete as EventListener);
+    
+    return () => {
+      document.removeEventListener('journeyCompleted', handleProgressComplete as EventListener);
+    };
+  }, [rewards]);
+  
+  // Separate effect for checking rewards that runs periodically
+  useEffect(() => {
     const checkForRewards = () => {
-      const updatedRewards = [...rewards];
+      if (showReward) return; // Don't check if already showing a reward
+      
+      const currentRewardsCopy = [...rewards];
       let rewardToShow: Reward | null = null;
+      let updatedRewards = false;
       
       // Check if quiz was completed
       const quizCompleted = localStorage.getItem('marketingQuizCompleted');
       if (quizCompleted === 'true') {
-        const quizReward = updatedRewards.find(r => r.id === 'quiz_completed');
-        if (quizReward && !quizReward.claimed) {
+        const quizReward = currentRewardsCopy.find(r => r.id === 'quiz_completed');
+        if (quizReward && !quizReward.claimed && !rewardToShow) {
           quizReward.claimed = true;
           rewardToShow = quizReward;
+          updatedRewards = true;
         }
       }
       
       // Check if all site milestones are completed
       const siteProgressMilestones = localStorage.getItem('siteProgressMilestones');
-      if (siteProgressMilestones) {
+      if (siteProgressMilestones && !rewardToShow) {
         try {
           const milestones = JSON.parse(siteProgressMilestones);
-          const allCompleted = milestones.every((m: any) => m.completed);
+          const allCompleted = Array.isArray(milestones) && 
+                              milestones.length > 0 && 
+                              milestones.every((m: any) => m.completed);
           
           if (allCompleted) {
-            const journeyReward = updatedRewards.find(r => r.id === 'all_milestones');
-            if (journeyReward && !journeyReward.claimed && !rewardToShow) {
+            const journeyReward = currentRewardsCopy.find(r => r.id === 'all_milestones');
+            if (journeyReward && !journeyReward.claimed) {
               journeyReward.claimed = true;
               rewardToShow = journeyReward;
+              updatedRewards = true;
+              
+              // Dispatch a custom event to indicate milestone completion
+              document.dispatchEvent(new CustomEvent('allMilestonesCompleted'));
             }
           }
         } catch (e) {
@@ -93,20 +130,22 @@ export function RewardsSystem() {
       
       // Check if case study was downloaded
       const caseStudyDownloaded = localStorage.getItem('caseStudyDownloaded');
-      if (caseStudyDownloaded === 'true') {
-        const caseStudyReward = updatedRewards.find(r => r.id === 'case_study');
-        if (caseStudyReward && !caseStudyReward.claimed && !rewardToShow) {
+      if (caseStudyDownloaded === 'true' && !rewardToShow) {
+        const caseStudyReward = currentRewardsCopy.find(r => r.id === 'case_study');
+        if (caseStudyReward && !caseStudyReward.claimed) {
           caseStudyReward.claimed = true;
           rewardToShow = caseStudyReward;
+          updatedRewards = true;
         }
       }
       
-      // Save updated rewards to localStorage
+      // Save updated rewards to localStorage and show reward if needed
+      if (updatedRewards) {
+        localStorage.setItem('siteRewards', JSON.stringify(currentRewardsCopy));
+        setRewards(currentRewardsCopy);
+      }
+      
       if (rewardToShow) {
-        setRewards(updatedRewards);
-        localStorage.setItem('siteRewards', JSON.stringify(updatedRewards));
-        
-        // Show the reward
         setCurrentReward(rewardToShow);
         setShowReward(true);
       }
@@ -116,12 +155,12 @@ export function RewardsSystem() {
     checkForRewards();
     
     // Set interval to periodically check for rewards
-    const interval = setInterval(checkForRewards, 30000);
+    const interval = setInterval(checkForRewards, 5000);
     
     return () => {
       clearInterval(interval);
     };
-  }, [rewards]);
+  }, [rewards, showReward]);
   
   // Simulate a download event when a case study is downloaded
   useEffect(() => {
@@ -159,116 +198,122 @@ export function RewardsSystem() {
   if (!showReward || !currentReward) return null;
   
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex items-center justify-center"
-      >
-        <div className="relative max-w-md w-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 overflow-hidden">
-          {/* Close button */}
-          <button 
-            onClick={() => setShowReward(false)}
-            className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-            aria-label="Close"
+    <AnimatePresence mode="wait">
+      {showReward && (
+        <>
+          <motion.div
+            key="reward-modal"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex items-center justify-center"
           >
-            <XIcon className="h-5 w-5" />
-          </button>
-          
-          {/* Reward icon */}
-          <div className="text-center mb-4">
-            <motion.div 
-              initial={{ rotateY: 0 }}
-              animate={{ rotateY: 360 }}
-              transition={{ duration: 1.5, delay: 0.3 }}
-              className="inline-block"
-            >
-              <div className="w-16 h-16 bg-[hsl(var(--electric-purple))]/10 rounded-full flex items-center justify-center mx-auto">
-                <GiftIcon className="h-8 w-8 text-[hsl(var(--electric-purple))]" />
-              </div>
-            </motion.div>
-          </div>
-          
-          {/* Reward content */}
-          <div className="text-center mb-6">
-            <h3 className="font-poppins font-bold text-xl mb-2">
-              <GradientText>Congratulations!</GradientText>
-            </h3>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <p className="mb-2 text-gray-700 dark:text-gray-300">
-                You've unlocked a special reward for:
-              </p>
-              <p className="font-medium mb-4">
-                {currentReward.action}
-              </p>
+            <div className="relative max-w-md w-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 overflow-hidden">
+              {/* Close button */}
+              <button 
+                onClick={() => setShowReward(false)}
+                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                aria-label="Close"
+              >
+                <XIcon className="h-5 w-5" />
+              </button>
               
-              <div className="relative p-3 bg-[hsl(var(--royal-blue))]/5 dark:bg-[hsl(var(--royal-blue))]/10 border border-dashed border-[hsl(var(--royal-blue))]/30 rounded-lg mb-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs">YOUR DISCOUNT CODE</p>
-                    <p className="font-mono text-xl font-bold text-[hsl(var(--royal-blue))]">{currentReward.code}</p>
+              {/* Reward icon */}
+              <div className="text-center mb-4">
+                <motion.div 
+                  initial={{ rotateY: 0 }}
+                  animate={{ rotateY: 360 }}
+                  transition={{ duration: 1.5, delay: 0.3 }}
+                  className="inline-block"
+                >
+                  <div className="w-16 h-16 bg-[hsl(var(--electric-purple))]/10 rounded-full flex items-center justify-center mx-auto">
+                    <GiftIcon className="h-8 w-8 text-[hsl(var(--electric-purple))]" />
                   </div>
-                  <Button
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => copyToClipboard(currentReward.code)}
-                    className="h-8 border-[hsl(var(--royal-blue))] text-[hsl(var(--royal-blue))]"
-                  >
-                    <CopyIcon className="h-4 w-4 mr-1" />
-                    Copy
-                  </Button>
-                </div>
+                </motion.div>
               </div>
               
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="text-3xl font-bold text-[hsl(var(--electric-purple))]">
-                  {currentReward.discount}
-                </div>
-                <div className="text-left">
-                  <p className="text-gray-700 dark:text-gray-300">{currentReward.description}</p>
-                </div>
+              {/* Reward content */}
+              <div className="text-center mb-6">
+                <h3 className="font-poppins font-bold text-xl mb-2">
+                  <GradientText>Congratulations!</GradientText>
+                </h3>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <p className="mb-2 text-gray-700 dark:text-gray-300">
+                    You've unlocked a special reward for:
+                  </p>
+                  <p className="font-medium mb-4">
+                    {currentReward.action}
+                  </p>
+                  
+                  <div className="relative p-3 bg-[hsl(var(--royal-blue))]/5 dark:bg-[hsl(var(--royal-blue))]/10 border border-dashed border-[hsl(var(--royal-blue))]/30 rounded-lg mb-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-gray-500 dark:text-gray-400 text-xs">YOUR DISCOUNT CODE</p>
+                        <p className="font-mono text-xl font-bold text-[hsl(var(--royal-blue))]">{currentReward.code}</p>
+                      </div>
+                      <Button
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => copyToClipboard(currentReward.code)}
+                        className="h-8 border-[hsl(var(--royal-blue))] text-[hsl(var(--royal-blue))]"
+                      >
+                        <CopyIcon className="h-4 w-4 mr-1" />
+                        Copy
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-center gap-3 mb-4">
+                    <div className="text-3xl font-bold text-[hsl(var(--electric-purple))]">
+                      {currentReward.discount}
+                    </div>
+                    <div className="text-left">
+                      <p className="text-gray-700 dark:text-gray-300">{currentReward.description}</p>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
-          </div>
+              
+              {/* Action buttons */}
+              <div className="flex flex-col gap-2">
+                <Button 
+                  onClick={() => {
+                    setShowReward(false);
+                    // Scroll to contact section
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="w-full bg-gradient-to-r from-[hsl(var(--royal-blue))] to-[hsl(var(--electric-purple))] text-white hover:brightness-110"
+                >
+                  <CheckCircle2Icon className="h-4 w-4 mr-2" />
+                  Redeem Now
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => setShowReward(false)}
+                  className="w-full"
+                >
+                  Save for Later
+                </Button>
+              </div>
+            </div>
+          </motion.div>
           
-          {/* Action buttons */}
-          <div className="flex flex-col gap-2">
-            <Button 
-              onClick={() => {
-                setShowReward(false);
-                // Scroll to contact section
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="w-full bg-gradient-to-r from-[hsl(var(--royal-blue))] to-[hsl(var(--electric-purple))] text-white hover:brightness-110"
-            >
-              <CheckCircle2Icon className="h-4 w-4 mr-2" />
-              Redeem Now
-            </Button>
-            <Button 
-              variant="outline"
-              onClick={() => setShowReward(false)}
-              className="w-full"
-            >
-              Save for Later
-            </Button>
-          </div>
-        </div>
-      </motion.div>
-      
-      {/* Backdrop */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black z-40"
-        onClick={() => setShowReward(false)}
-      />
+          {/* Backdrop */}
+          <motion.div
+            key="reward-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black z-40"
+            onClick={() => setShowReward(false)}
+          />
+        </>
+      )}
     </AnimatePresence>
   );
 }

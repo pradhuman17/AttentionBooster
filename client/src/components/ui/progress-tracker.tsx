@@ -79,6 +79,21 @@ export function ProgressTracker({ className }: ProgressTrackerProps) {
             setHasNewAchievement(false);
           }, 5000);
         }
+        
+        // Check if all milestones are completed now
+        const allCompleted = updatedMilestones.every(milestone => milestone.completed);
+        if (allCompleted) {
+          // Calculate progress
+          setProgress(100);
+          
+          // Dispatch custom event for rewards system
+          document.dispatchEvent(new CustomEvent('journeyCompleted'));
+          console.log('Journey completed! Event dispatched.');
+        } else {
+          // Calculate current progress
+          const completedCount = updatedMilestones.filter(m => m.completed).length;
+          setProgress(Math.round((completedCount / updatedMilestones.length) * 100));
+        }
       }
     };
     

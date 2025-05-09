@@ -5,8 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
 import CaseStudiesDetail from "@/pages/CaseStudiesDetail";
-import { FloatingButton } from "@/components/layout/FloatingButton";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { CaseStudyButton } from "@/components/ui/case-study-button";
 
 function Router() {
   return (
@@ -23,8 +23,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Router />
       <Toaster />
-      <FloatingButton />
       <CustomCursor />
+      <CaseStudyButton />
     </QueryClientProvider>
   );
 }

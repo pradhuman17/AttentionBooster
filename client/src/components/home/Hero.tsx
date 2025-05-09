@@ -94,7 +94,7 @@ export function Hero() {
                 Book Appointment
                 <i className="bx bx-right-arrow-alt ml-1 text-xl"></i>
               </a>
-              <a href="#case-studies" className="inline-flex items-center justify-center px-8 py-3.5 border-2 border-[hsl(var(--royal-blue))] text-[hsl(var(--royal-blue))] dark:text-white dark:border-white font-medium rounded-full hover:bg-[hsl(var(--royal-blue))]/5 transition-colors">
+              <a href="/case-studies" className="inline-flex items-center justify-center px-8 py-3.5 border-2 border-[hsl(var(--royal-blue))] text-[hsl(var(--royal-blue))] dark:text-white dark:border-white font-medium rounded-full hover:bg-[hsl(var(--royal-blue))]/5 transition-colors">
                 See Case Studies
               </a>
             </motion.div>

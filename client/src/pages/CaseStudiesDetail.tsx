@@ -49,7 +49,7 @@ export default function CaseStudiesDetail() {
 
   const handleDownloadPDF = (fileName: string) => {
     const link = document.createElement("a");
-    link.href = `/case-studies/${fileName}`;
+    link.href = `/attached_assets/${fileName}`;
     link.setAttribute("download", fileName);
     document.body.appendChild(link);
     link.click();

@@ -309,15 +309,15 @@
   @keyframes pulse {
     0% {
       transform: scale(1);
-      box-shadow: 0 0 0 0 rgba(66, 66, 255, 0.7);
+      box-shadow: 0 0 0 0 rgba(25, 153, 154, 0.7); /* Teal */
     }
     70% {
       transform: scale(1.05);
-      box-shadow: 0 0 0 10px rgba(66, 66, 255, 0);
+      box-shadow: 0 0 0 10px rgba(25, 153, 154, 0);
     }
     100% {
       transform: scale(1);
-      box-shadow: 0 0 0 0 rgba(66, 66, 255, 0);
+      box-shadow: 0 0 0 0 rgba(25, 153, 154, 0);
     }
   }
 }

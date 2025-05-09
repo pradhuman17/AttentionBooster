@@ -255,8 +255,11 @@ export default function CaseStudiesDetail() {
                         
                         <div className="mt-8 flex gap-4">
                           <Button 
-                            className="bg-[hsl(var(--royal-blue))] text-white hover:bg-[hsl(var(--royal-blue-light))]"
-                            onClick={() => setLocation("/#contact")}
+                            className="bg-[hsl(var(--electric-purple))] text-white hover:bg-[hsl(var(--electric-purple))/90] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                            onClick={() => {
+                              localStorage.setItem('referredFromCaseStudy', study.title);
+                              setLocation("/#book");
+                            }}
                           >
                             Get Similar Results
                           </Button>

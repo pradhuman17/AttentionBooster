@@ -107,13 +107,17 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div>
-                <img 
-                  src="/ai-workflow-automationA--1-.png" 
-                  alt="AI Workflow Automation" 
-                  width="500"
-                  height="300"
-                />
+              <div className="relative flex justify-center">
+                <div className="absolute inset-0 rounded-full bg-[hsl(var(--electric-purple))]/20 filter blur-xl animate-pulse" style={{ transform: 'scale(0.9)' }}></div>
+                <div className="relative rounded-full overflow-hidden border-4 border-[hsl(var(--royal-blue))]/20 shadow-2xl">
+                  <img 
+                    src="/ai-workflow-automationA--1-.png" 
+                    alt="AI Workflow Automation" 
+                    width="480"
+                    height="480"
+                    className="rounded-full transform scale-110 object-cover"
+                  />
+                </div>
                 
                 {/* Animated elements overlaying the workflow image */}
                 <motion.div 

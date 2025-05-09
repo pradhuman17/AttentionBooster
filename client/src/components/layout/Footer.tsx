@@ -6,8 +6,6 @@ export function Footer() {
   const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
   
   const socialLinks = [
-    { name: "LinkedIn", icon: "bxl-linkedin", url: "#" },
-    { name: "Twitter", icon: "bxl-twitter", url: "#" },
     { name: "Instagram", icon: "bxl-instagram", url: "#" },
     { name: "Facebook", icon: "bxl-facebook", url: "#" }
   ];

@@ -131,20 +131,6 @@ export function Contact() {
               <a 
                 href="#" 
                 className="w-10 h-10 rounded-full bg-[hsl(var(--royal-blue))]/10 flex items-center justify-center text-[hsl(var(--royal-blue))] hover:bg-[hsl(var(--royal-blue))] hover:text-white transition-colors"
-                aria-label="LinkedIn"
-              >
-                <i className="bx bxl-linkedin"></i>
-              </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full bg-[hsl(var(--royal-blue))]/10 flex items-center justify-center text-[hsl(var(--royal-blue))] hover:bg-[hsl(var(--royal-blue))] hover:text-white transition-colors"
-                aria-label="Twitter"
-              >
-                <i className="bx bxl-twitter"></i>
-              </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full bg-[hsl(var(--royal-blue))]/10 flex items-center justify-center text-[hsl(var(--royal-blue))] hover:bg-[hsl(var(--royal-blue))] hover:text-white transition-colors"
                 aria-label="Instagram"
               >
                 <i className="bx bxl-instagram"></i>

@@ -33,11 +33,11 @@ export function Header() {
   };
 
   const navLinks = [
-    { name: "Services", href: "#services" },
-    { name: "Case Studies", href: "#case-studies" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "About", href: "#about" },
-    { name: "Contact", href: "#contact" },
+    { name: "Services", href: "/#services" },
+    { name: "Case Studies", href: "/case-studies" },
+    { name: "Testimonials", href: "/#testimonials" },
+    { name: "About", href: "/#about" },
+    { name: "Contact", href: "/#contact" },
   ];
 
   return (
@@ -62,13 +62,23 @@ export function Header() {
           <div className="hidden md:flex space-x-8 items-center">
             <nav className="flex space-x-8 items-center">
               {navLinks.map((link) => (
-                <a 
-                  key={link.name}
-                  href={link.href} 
-                  className="text-sm font-medium hover:text-[hsl(var(--royal-blue))] transition-colors hover-underline"
-                >
-                  {link.name}
-                </a>
+                link.href.startsWith('/#') ? (
+                  <a 
+                    key={link.name}
+                    href={link.href} 
+                    className="text-sm font-medium hover:text-[hsl(var(--royal-blue))] transition-colors hover-underline"
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link 
+                    key={link.name}
+                    href={link.href} 
+                    className="text-sm font-medium hover:text-[hsl(var(--royal-blue))] transition-colors hover-underline"
+                  >
+                    {link.name}
+                  </Link>
+                )
               ))}
             </nav>
             
@@ -99,17 +109,30 @@ export function Header() {
           >
             <div className="px-4 py-5 space-y-4">
               {navLinks.map((link, index) => (
-                <motion.a 
+                <motion.div
                   key={link.name}
-                  href={link.href} 
-                  className="block text-sm font-medium hover:text-[hsl(var(--royal-blue))] hover-underline"
-                  onClick={closeMenu}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05, duration: 0.3 }}
                 >
-                  {link.name}
-                </motion.a>
+                  {link.href.startsWith('/#') ? (
+                    <a 
+                      href={link.href} 
+                      className="block text-sm font-medium hover:text-[hsl(var(--royal-blue))] hover-underline"
+                      onClick={closeMenu}
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link 
+                      href={link.href} 
+                      className="block text-sm font-medium hover:text-[hsl(var(--royal-blue))] hover-underline"
+                      onClick={closeMenu}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </motion.div>
               ))}
 
               <div className="flex justify-center pt-2">

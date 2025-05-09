@@ -104,15 +104,49 @@ export function ServiceCard({
       }}
     >
       <motion.div 
-        className={cn("w-16 h-16 rounded-lg flex items-center justify-center mb-6", gradientClass)}
+        className={cn("w-16 h-16 rounded-lg flex items-center justify-center mb-6 relative overflow-hidden cursor-pointer", gradientClass)}
         initial={{ scale: 0.8, opacity: 0 }}
         animate={isVisible ? 
           { scale: 1, opacity: 1, transition: { delay: 0.1, duration: 0.4 } } : 
           { scale: 0.8, opacity: 0 }
         }
-        whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+        whileHover={{ 
+          scale: 1.05,
+          transition: { duration: 0.3, type: "spring", stiffness: 300 }
+        }}
       >
-        <i className={cn('bx', icon, 'text-3xl text-white')}></i>
+        {/* Background shine effect */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+          initial={{ x: "-100%" }}
+          whileHover={{ 
+            x: "100%",
+            transition: { duration: 0.8, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.5 }
+          }}
+        />
+        
+        {/* Icon with bounce effect */}
+        <motion.i 
+          className={cn('bx', icon, 'text-3xl text-white relative z-10')}
+          whileHover={{ 
+            scale: [1, 1.2, 0.9, 1.1, 1],
+            rotate: [0, 10, -10, 5, 0],
+            transition: { duration: 0.6 }
+          }}
+        />
+        
+        {/* Pulse effect when card is hovered */}
+        {isHovered && (
+          <motion.div 
+            className="absolute inset-0 bg-white/20 rounded-lg"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ 
+              scale: 1.5, 
+              opacity: [0, 0.3, 0],
+              transition: { duration: 1.5, repeat: Infinity, ease: "easeOut" }
+            }}
+          />
+        )}
       </motion.div>
       
       <motion.h3 

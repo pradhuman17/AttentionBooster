@@ -1,17 +1,14 @@
-import { db } from "./index";
-import * as schema from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { client, caseStudies, testimonials } from "./index.js";
 
 async function seed() {
   try {
+    await client.connect();
     console.log("Seeding database...");
 
     // Case Studies
-    const existingCaseStudies = await db.query.caseStudies.findMany();
-    
-    if (existingCaseStudies.length === 0) {
+    const existingCaseStudies = await caseStudies.countDocuments();
+    if (existingCaseStudies === 0) {
       console.log("Seeding case studies...");
-      
       const caseStudiesData = [
         {
           title: "412% ROAS for Fashion Brand",
@@ -32,19 +29,16 @@ async function seed() {
           description: "Our AI chatbot and CRM automation solutions helped this SaaS company streamline their lead qualification and nurturing process."
         }
       ];
-      
-      await db.insert(schema.caseStudies).values(caseStudiesData);
+      await caseStudies.insertMany(caseStudiesData);
       console.log(`Added ${caseStudiesData.length} case studies`);
     } else {
-      console.log(`${existingCaseStudies.length} case studies already exist, skipping...`);
+      console.log(`${existingCaseStudies} case studies already exist, skipping...`);
     }
 
     // Testimonials
-    const existingTestimonials = await db.query.testimonials.findMany();
-    
-    if (existingTestimonials.length === 0) {
+    const existingTestimonials = await testimonials.countDocuments();
+    if (existingTestimonials === 0) {
       console.log("Seeding testimonials...");
-      
       const testimonialsData = [
         {
           content: "Invincible Growth transformed our marketing approach. Their paid ads strategy generated a 3x return in just 2 months, and the automation system they built has saved us countless hours.",
@@ -65,16 +59,17 @@ async function seed() {
           avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
         }
       ];
-      
-      await db.insert(schema.testimonials).values(testimonialsData);
+      await testimonials.insertMany(testimonialsData);
       console.log(`Added ${testimonialsData.length} testimonials`);
     } else {
-      console.log(`${existingTestimonials.length} testimonials already exist, skipping...`);
+      console.log(`${existingTestimonials} testimonials already exist, skipping...`);
     }
 
     console.log("Database seeded successfully!");
   } catch (error) {
     console.error("Error seeding database:", error);
+  } finally {
+    await client.close();
   }
 }
 

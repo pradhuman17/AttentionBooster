@@ -1,16 +1,23 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
-import * as schema from "@shared/schema";
+import "dotenv/config";
+import { MongoClient } from "mongodb";
 
-// This is the correct way neon config - DO NOT change this
-neonConfig.webSocketConstructor = ws;
+const uri = process.env.DATABASE_URL || "mongodb://localhost:27017/attentionbooster";
+export const client = new MongoClient(uri);
+export const db = client.db();
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
-}
+// Test connection on startup
+(async () => {
+  try {
+    await client.connect();
+    await db.command({ ping: 1 });
+    console.log("✅ Connected to MongoDB successfully!");
+  } catch (err) {
+    console.error("❌ Failed to connect to MongoDB:", err);
+  }
+})();
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle({ client: pool, schema });
+// Export collections for use in the app
+export const users = db.collection("users");
+export const contacts = db.collection("contacts");
+export const caseStudies = db.collection("case_studies");
+export const testimonials = db.collection("testimonials");

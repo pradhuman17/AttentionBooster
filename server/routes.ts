@@ -9,11 +9,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/contact', async (req, res) => {
     try {
       const validatedData = contactSchema.parse(req.body);
-      
-      // Here you would typically store the contact form submission in a database
-      // or integrate with an email service provider
-      
-      // For now, we'll just return a success response
+      // Store the contact form submission in MongoDB
+      await db.collection('contacts').insertOne({
+        ...validatedData,
+        createdAt: new Date()
+      });
       return res.status(201).json({ 
         message: "Contact form submitted successfully",
         data: validatedData

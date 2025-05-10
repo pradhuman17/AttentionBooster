@@ -7,9 +7,9 @@ if (!process.env.DATABASE_URL) {
 export default defineConfig({
   out: "./db/migrations",
   schema: "./shared/schema.ts",
-  dialect: "postgresql",
+  dialect: "mongodb",
   dbCredentials: {
-    url: process.env.DATABASE_URL,
+    url: process.env.DATABASE_URL, // e.g. mongodb://localhost:27017/your-db
   },
   verbose: true,
 });

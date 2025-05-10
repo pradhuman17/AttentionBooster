@@ -204,6 +204,8 @@ export default function CaseStudiesDetail() {
                           src={study.image} 
                           alt={study.title} 
                           className="w-full h-full object-cover"
+                          style={{ minHeight: 200, background: '#eee' }} // fallback background for debug
+                          onError={e => { e.currentTarget.style.background = '#faa'; e.currentTarget.src = ''; }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center justify-center">
                           <div className="text-white p-8">

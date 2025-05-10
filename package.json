@@ -50,6 +50,7 @@
     "cmdk": "^1.0.0",
     "connect-pg-simple": "^10.0.0",
     "date-fns": "^3.6.0",
+    "dotenv": "^16.5.0",
     "drizzle-orm": "^0.38.4",
     "drizzle-seed": "^0.3.1",
     "drizzle-zod": "^0.6.1",
@@ -59,6 +60,7 @@
     "framer-motion": "^11.18.2",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.453.0",
+    "mongodb": "^6.16.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "react": "^18.3.1",
@@ -94,11 +96,16 @@
     "esbuild": "^0.24.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.17",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.1",
     "typescript": "5.6.3",
     "vite": "^5.4.9"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
-  }
+  },
+  "main": "postcss.config.js",
+  "keywords": [],
+  "author": "",
+  "description": ""
 }
